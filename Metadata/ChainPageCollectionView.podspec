@@ -9,14 +9,14 @@
 Pod::Spec.new do |s|
 
   s.name         = "ChainPageCollectionView"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "ChainPageCollectionView to animate a chain of parent-child collection view."
 
   s.homepage     = "https://github.com/jindulys/ChainPageCollectionView"
 
   s.license      = "MIT"
 
-  s.author             = { "jindulys" => "liyansong.edw@gmail.com" }
+  s.author       = { "jindulys" => "liyansong.edw@gmail.com" }
 
   s.platform     = :ios, "9.0"
 

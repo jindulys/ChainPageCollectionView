@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0E1C36781F24FA8900D6FFE0 /* ChainPageCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */; };
 		0E1C367D1F24FC2000D6FFE0 /* ChainPageCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0E1C36801F2542F200D6FFE0 /* BaseCardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */; };
+		0E1C36821F25431C00D6FFE0 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */; };
 		0ED42C321F24506D009FCF88 /* ChainPageCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */; };
 		0ED42C371F24506D009FCF88 /* ChainPageCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C361F24506D009FCF88 /* ChainPageCollectionViewTests.swift */; };
 		0ED42C461F24543E009FCF88 /* ChainPageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED42C451F24543E009FCF88 /* ChainPageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -17,12 +19,10 @@
 		0ED42C561F2457CF009FCF88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED42C541F2457CF009FCF88 /* Main.storyboard */; };
 		0ED42C581F2457CF009FCF88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ED42C571F2457CF009FCF88 /* Assets.xcassets */; };
 		0ED42C5B1F2457CF009FCF88 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED42C591F2457CF009FCF88 /* LaunchScreen.storyboard */; };
-		0ED42C661F245914009FCF88 /* BaseCardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C601F245914009FCF88 /* BaseCardCollectionCell.swift */; };
 		0ED42C671F245914009FCF88 /* CentralCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C611F245914009FCF88 /* CentralCardLayout.swift */; };
 		0ED42C681F245914009FCF88 /* ChainCollectionViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C621F245914009FCF88 /* ChainCollectionViewProtocol.swift */; };
 		0ED42C691F245914009FCF88 /* ChainPageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C631F245914009FCF88 /* ChainPageCollectionView.swift */; };
 		0ED42C6A1F245914009FCF88 /* EdgeCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C641F245914009FCF88 /* EdgeCardLayout.swift */; };
-		0ED42C6B1F245914009FCF88 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C651F245914009FCF88 /* UIColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		0E1C36581F24D51400D6FFE0 /* ChainPageCollectionView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChainPageCollectionView.podspec; sourceTree = "<group>"; };
+		0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCardCollectionCell.swift; sourceTree = "<group>"; };
+		0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChainPageCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED42C311F24506D009FCF88 /* ChainPageCollectionViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChainPageCollectionViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED42C361F24506D009FCF88 /* ChainPageCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainPageCollectionViewTests.swift; sourceTree = "<group>"; };
@@ -71,12 +73,10 @@
 		0ED42C571F2457CF009FCF88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0ED42C5A1F2457CF009FCF88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ED42C5C1F2457CF009FCF88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0ED42C601F245914009FCF88 /* BaseCardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCardCollectionCell.swift; sourceTree = "<group>"; };
 		0ED42C611F245914009FCF88 /* CentralCardLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CentralCardLayout.swift; sourceTree = "<group>"; };
 		0ED42C621F245914009FCF88 /* ChainCollectionViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainCollectionViewProtocol.swift; sourceTree = "<group>"; };
 		0ED42C631F245914009FCF88 /* ChainPageCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainPageCollectionView.swift; sourceTree = "<group>"; };
 		0ED42C641F245914009FCF88 /* EdgeCardLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeCardLayout.swift; sourceTree = "<group>"; };
-		0ED42C651F245914009FCF88 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,12 +139,10 @@
 		0ED42C421F24530E009FCF88 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0ED42C601F245914009FCF88 /* BaseCardCollectionCell.swift */,
 				0ED42C611F245914009FCF88 /* CentralCardLayout.swift */,
 				0ED42C621F245914009FCF88 /* ChainCollectionViewProtocol.swift */,
 				0ED42C631F245914009FCF88 /* ChainPageCollectionView.swift */,
 				0ED42C641F245914009FCF88 /* EdgeCardLayout.swift */,
-				0ED42C651F245914009FCF88 /* UIColorExtension.swift */,
 				0ED42C451F24543E009FCF88 /* ChainPageCollectionView.h */,
 				0ED42C431F245348009FCF88 /* Info.plist */,
 			);
@@ -162,6 +160,8 @@
 		0ED42C4F1F2457CF009FCF88 /* ChainPageCollectionViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */,
+				0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */,
 				0ED42C501F2457CF009FCF88 /* AppDelegate.swift */,
 				0ED42C521F2457CF009FCF88 /* ViewController.swift */,
 				0ED42C541F2457CF009FCF88 /* Main.storyboard */,
@@ -321,12 +321,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ED42C661F245914009FCF88 /* BaseCardCollectionCell.swift in Sources */,
 				0ED42C681F245914009FCF88 /* ChainCollectionViewProtocol.swift in Sources */,
 				0ED42C671F245914009FCF88 /* CentralCardLayout.swift in Sources */,
 				0ED42C691F245914009FCF88 /* ChainPageCollectionView.swift in Sources */,
 				0ED42C6A1F245914009FCF88 /* EdgeCardLayout.swift in Sources */,
-				0ED42C6B1F245914009FCF88 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +342,8 @@
 			files = (
 				0ED42C531F2457CF009FCF88 /* ViewController.swift in Sources */,
 				0ED42C511F2457CF009FCF88 /* AppDelegate.swift in Sources */,
+				0E1C36801F2542F200D6FFE0 /* BaseCardCollectionCell.swift in Sources */,
+				0E1C36821F25431C00D6FFE0 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
