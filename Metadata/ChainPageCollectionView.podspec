@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/jindulys/ChainPageCollectionView.git", :tag => s.version }
 
-  s.source_files  = "ChainPageCollectionView/Sources/*.{h,swift}"
+  s.source_files  = 'Sources/*.{h,swift}'
 
   # s.requires_arc = true
   
