@@ -1,5 +1,5 @@
 <h3 align="center">
-    <img src="chainpageview.png" width=540/>
+    <img src="Images/chainpageview.png" width=540/>
 </h3>
 
 # PageKit
