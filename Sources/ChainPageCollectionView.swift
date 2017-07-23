@@ -35,8 +35,8 @@ private var defaultParentCellVerticalPadding: CGFloat = 50
 private var defaultParentCellWidthHeightRatio: CGFloat = 3 / 4
 private var defaultChildCellVerticalPadding: CGFloat = 12
 private var defaultChildCellWidthHeightRatio: CGFloat = 3 / 4
-private let defaultFadeOutDuration: CGFloat = 0.8
-private let defaultFadeInDuration: CGFloat = 0.8
+private let defaultFadeOutDuration: CGFloat = 0.6
+private let defaultFadeInDuration: CGFloat = 0.6
 
 public enum ChainPageCollectionViewType {
 
