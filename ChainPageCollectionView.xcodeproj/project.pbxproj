@@ -137,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			name = Metadata;
+			path = Metadata;
 			sourceTree = "<group>";
 		};
 		0ED42C4F1F2457CF009FCF88 /* ChainPageCollectionViewDemo */ = {
@@ -595,6 +595,7 @@
 				0ED42C5F1F2457CF009FCF88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
