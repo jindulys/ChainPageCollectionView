@@ -11,6 +11,7 @@
 		0E1C367D1F24FC2000D6FFE0 /* ChainPageCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E1C36801F2542F200D6FFE0 /* BaseCardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */; };
 		0E1C36821F25431C00D6FFE0 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */; };
+		0E1C36841F25446500D6FFE0 /* ImageCardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C36831F25446500D6FFE0 /* ImageCardCollectionCell.swift */; };
 		0ED42C321F24506D009FCF88 /* ChainPageCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */; };
 		0ED42C371F24506D009FCF88 /* ChainPageCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED42C361F24506D009FCF88 /* ChainPageCollectionViewTests.swift */; };
 		0ED42C461F24543E009FCF88 /* ChainPageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED42C451F24543E009FCF88 /* ChainPageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,6 +61,7 @@
 		0E1C36581F24D51400D6FFE0 /* ChainPageCollectionView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChainPageCollectionView.podspec; sourceTree = "<group>"; };
 		0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCardCollectionCell.swift; sourceTree = "<group>"; };
 		0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		0E1C36831F25446500D6FFE0 /* ImageCardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCardCollectionCell.swift; sourceTree = "<group>"; };
 		0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChainPageCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED42C311F24506D009FCF88 /* ChainPageCollectionViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChainPageCollectionViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED42C361F24506D009FCF88 /* ChainPageCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainPageCollectionViewTests.swift; sourceTree = "<group>"; };
@@ -160,9 +162,10 @@
 		0ED42C4F1F2457CF009FCF88 /* ChainPageCollectionViewDemo */ = {
 			isa = PBXGroup;
 			children = (
-				0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */,
-				0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */,
 				0ED42C501F2457CF009FCF88 /* AppDelegate.swift */,
+				0E1C367F1F2542F200D6FFE0 /* BaseCardCollectionCell.swift */,
+				0E1C36831F25446500D6FFE0 /* ImageCardCollectionCell.swift */,
+				0E1C36811F25431C00D6FFE0 /* UIColorExtension.swift */,
 				0ED42C521F2457CF009FCF88 /* ViewController.swift */,
 				0ED42C541F2457CF009FCF88 /* Main.storyboard */,
 				0ED42C571F2457CF009FCF88 /* Assets.xcassets */,
@@ -342,6 +345,7 @@
 			files = (
 				0ED42C531F2457CF009FCF88 /* ViewController.swift in Sources */,
 				0ED42C511F2457CF009FCF88 /* AppDelegate.swift in Sources */,
+				0E1C36841F25446500D6FFE0 /* ImageCardCollectionCell.swift in Sources */,
 				0E1C36801F2542F200D6FFE0 /* BaseCardCollectionCell.swift in Sources */,
 				0E1C36821F25431C00D6FFE0 /* UIColorExtension.swift in Sources */,
 			);

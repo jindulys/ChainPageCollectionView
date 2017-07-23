@@ -54,8 +54,8 @@ public enum ChainPageCollectionViewType {
       guard pInt > 0, cInt > 0 else {
         return defaultParentChildRatio
       }
-      let total = pInt + cInt
-      return CGFloat(pInt/total)
+      let total = CGFloat(pInt + cInt)
+      return CGFloat(pInt) / total
     }
   }
 }
@@ -133,7 +133,7 @@ open class ChainPageCollectionView: UIView {
     parentCollectionView =
         UICollectionView(frame: .zero,
                          collectionViewLayout: parentCollectionViewLayout)
-    parentCollectionView.backgroundColor = UIColor.white
+    parentCollectionView.backgroundColor = .clear
     parentCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
 
     let childCollectionViewLayout = childCollectionViewLayout
@@ -141,8 +141,8 @@ open class ChainPageCollectionView: UIView {
     childCollectionViewLayout.minimumLineSpacing = 16
     childCollectionView = UICollectionView(frame: .zero,
                                            collectionViewLayout: childCollectionViewLayout)
-    childCollectionView.backgroundColor = UIColor.white
     childCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
+    childCollectionView.backgroundColor = .clear
 
     super.init(frame: .zero)
     parentCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -273,7 +273,7 @@ extension ChainPageCollectionView {
     let indexPaths = childCollectionView.indexPathsForVisibleItems.sorted { $0.row < $1.row }
     let visibleCellsCount = Double(indexPaths.count)
     var restoreCellBlocks: [() -> ()] = []
-    UIView.animateKeyframes(withDuration: 1.2,
+    UIView.animateKeyframes(withDuration: TimeInterval(defaultFadeOutDuration),
                             delay: 0,
                             options: UIViewKeyframeAnimationOptions(),
                             animations: {
@@ -309,7 +309,7 @@ extension ChainPageCollectionView {
   
   func addChildCollectionViewFadeInAnimation(completionBlock: ((Bool)->())? = nil) {
     let indexPaths = self.childCollectionViewFadeInCellIndexes()
-    UIView.animateKeyframes(withDuration: 1.2,
+    UIView.animateKeyframes(withDuration: TimeInterval(defaultFadeInDuration),
                             delay: 0,
                             options: UIViewKeyframeAnimationOptions(),
                             animations: {
