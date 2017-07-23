@@ -41,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E1C36581F24D51400D6FFE0 /* ChainPageCollectionView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChainPageCollectionView.podspec; sourceTree = "<group>"; };
 		0ED42C281F24506D009FCF88 /* ChainPageCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChainPageCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED42C311F24506D009FCF88 /* ChainPageCollectionViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChainPageCollectionViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED42C361F24506D009FCF88 /* ChainPageCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainPageCollectionViewTests.swift; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 		0ED42C471F24560B009FCF88 /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				0E1C36581F24D51400D6FFE0 /* ChainPageCollectionView.podspec */,
 			);
 			path = Metadata;
 			sourceTree = "<group>";
