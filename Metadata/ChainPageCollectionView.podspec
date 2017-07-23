@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ChainPageCollectionView"
-  s.version      = "0.0.2"
+  s.version      = "0.0.4"
   s.summary      = "ChainPageCollectionView to animate a chain of parent-child collection view."
 
   s.homepage     = "https://github.com/jindulys/ChainPageCollectionView"
