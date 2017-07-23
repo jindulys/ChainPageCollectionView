@@ -435,6 +435,7 @@ extension ChainPageCollectionView: UICollectionViewDataSource, UICollectionViewD
                              to destinationIndexPath: IndexPath) {
     guard let validDelegate = delegate else {
       assert(false, "Need delegate!")
+      return
     }
     if collectionView == parentCollectionView {
       validDelegate.parentCollectionView?(parentCollectionView,
@@ -452,6 +453,7 @@ extension ChainPageCollectionView: UICollectionViewDataSource, UICollectionViewD
                              forItemAt indexPath: IndexPath) {
     guard let validDelegate = delegate else {
       assert(false, "Need delegate!")
+      return
     }
     if collectionView == parentCollectionView {
       validDelegate.parentCollectionView?(parentCollectionView, willDisplay: cell,
@@ -476,6 +478,7 @@ extension ChainPageCollectionView: UICollectionViewDataSource, UICollectionViewD
                              didSelectItemAt indexPath: IndexPath) {
     guard let validDelegate = delegate else {
       assert(false, "Need delegate!")
+      return
     }
     if collectionView == parentCollectionView {
       validDelegate.parentCollectionView?(parentCollectionView, didSelectItemAt: indexPath)
