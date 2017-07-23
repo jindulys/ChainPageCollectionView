@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ChainPageCollectionView"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "ChainPageCollectionView to animate a chain of parent-child collection view."
 
   s.homepage     = "https://github.com/jindulys/ChainPageCollectionView"
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/jindulys/ChainPageCollectionView.git", :tag => s.version }
 
-  s.source_files  = "ChainPageCollectionView", "ChainPageCollectionView/Sources/*.{h,swift}"
+  s.source_files  = "ChainPageCollectionView/Sources/*.{h,swift}"
 
   # s.requires_arc = true
   
