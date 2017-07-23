@@ -3,10 +3,11 @@
 </h3>
 
 # PageKit
-A custom View with fancy collectionView animation
-<h3 align="center">
-    <img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/latest.gif" alt="Demo" title="Demo" width="330"/>
-</h3>
+A custom View with two level chained collection views and fancy transition animation.
+
+## Demo
+
+<img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/latest.gif" alt="Demo" title="Demo" width="330"/>         <img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/shrink.gif" alt="Demo" title="Demo" width="330"/>
 
 ## Requirements
 
@@ -79,6 +80,23 @@ func childCollectionView(_ collectionView: UICollectionView, parentCollectionVie
 ```
 
 ### Customization
+
+#### Child Collection View Animation Type
+
+For now support two types
+
+```swift
+public enum ChainPageChildAnimationType {
+  case slideOutSlideIn
+  case shrinkOutExpandIn
+}
+```
+
+Default is `slideOutSlideIn`, you can set it via initialization.
+```swift
+let chainView = ChainPageCollectionView(viewType: .normal, 
+                                        childAnimationType: #yourchoice)
+```
 
 #### Layout
 
