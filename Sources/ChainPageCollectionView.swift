@@ -30,6 +30,14 @@
 
 import UIKit
 
+private let defaultParentChildRatio: CGFloat = 3 / 4
+private var defaultParentCellVerticalPadding: CGFloat = 50
+private var defaultParentCellWidthHeightRatio: CGFloat = 3 / 4
+private var defaultChildCellVerticalPadding: CGFloat = 12
+private var defaultChildCellWidthHeightRatio: CGFloat = 3 / 4
+private let defaultFadeOutDuration: CGFloat = 0.8
+private let defaultFadeInDuration: CGFloat = 0.8
+
 public enum ChainPageCollectionViewType {
 
   /// normal type splits the height to 3 : 1
@@ -41,10 +49,10 @@ public enum ChainPageCollectionViewType {
   func viewHeightRatio() -> CGFloat {
     switch self {
     case .normal:
-      return 3.0 / 4.0
+      return defaultParentChildRatio
     case let .customParentHeight(pInt, cInt):
       guard pInt > 0, cInt > 0 else {
-        return 3.0 / 4.0
+        return defaultParentChildRatio
       }
       let total = pInt + cInt
       return CGFloat(pInt/total)
@@ -53,21 +61,10 @@ public enum ChainPageCollectionViewType {
 }
 
 fileprivate enum ChildAnimationState {
-  
-  /// Initial state.
   case initial
-  
-  /// Fade out child collectionview.
   case fadeOutChild
-  
-  /// Fade out child collectionview has complete.
   case fadeOutComplete
-  
-  /// Fade in child collectionview.
   case fadeInChild
-  
-  /// Case where currently we are in the middle of some state and can not transit to a desired state,
-  /// but eventually we will get to that state.
   indirect case toProcess(ChildAnimationState, ChildAnimationState)
 }
 
@@ -87,38 +84,9 @@ open class ChainPageCollectionView: UIView {
   
   public weak var delegate: ChainCollectionViewProtocol?
   
-  public var childCollectionViewDataReady: Bool = false {
-    didSet {
-      // NOTE: Whenever user of this view sets this field to `true`, it means new data has come
-      // we need to update UI according to current state.
-      if childCollectionViewDataReady {
-        switch self.state {
-        case .initial:
-          self <= .fadeOutChild
-        case .fadeInChild:
-          self <= .fadeOutChild
-        case .fadeOutComplete:
-          self <= .fadeInChild
-        default:
-          break
-        }
-      }
-    }
-  }
-  
-  public var parentIndexChangeDuringFadeIn: Bool = false
-  
-  fileprivate var childCollectionViewDataWantToBeReload: Int = 0
+  fileprivate var parentIndexChangeDuringFadeIn: Bool = false
   
   fileprivate var preprocessBeforeChildCollectionViewReload: (()->())?
-
-  fileprivate var parentCellVerticalPadding: CGFloat = 50
-
-  fileprivate var parentCellWidthHeightRatio: CGFloat = 3 / 4
-
-  fileprivate var childCellVerticalPadding: CGFloat = 12
-
-  fileprivate var childCellWidthHeightRatio: CGFloat = 3 / 4
   
   fileprivate var lastTimeViewHeight: CGFloat = 0.0
   
@@ -138,11 +106,22 @@ open class ChainPageCollectionView: UIView {
     }
   }
   
-  func childCollectionViewFadeOut() {
-    /// Animate out currently child collection view cells.
-    addChildCollectionViewFadeOutAnimation() { finish in
-      self <= .fadeOutComplete
-      self <= .fadeInChild
+  public var childCollectionViewDataReady: Bool = false {
+    didSet {
+      // NOTE: Whenever user of this view sets this field to `true`, it means new data has come
+      // we need to update UI according to current state.
+      if childCollectionViewDataReady {
+        switch self.state {
+        case .initial:
+          self <= .fadeOutChild
+        case .fadeInChild:
+          self <= .fadeOutChild
+        case .fadeOutComplete:
+          self <= .fadeInChild
+        default:
+          break
+        }
+      }
     }
   }
 
@@ -181,22 +160,6 @@ open class ChainPageCollectionView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public func childCollectionViewReload() {
-    preprocessBeforeChildCollectionViewReload?()
-    self.childCollectionView.reloadData()
-    if let childCollectionViewLayout =
-      self.childCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-      self.childCollectionView.contentOffset =
-        CGPoint(x: -childCollectionViewLayout.minimumLineSpacing, y: 0)
-    }
-    // NOTE: Add a little delay to let childCollectionView/layout updates its data.
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-      self.addChildCollectionViewFadeInAnimation() { finish in
-        self <= .initial
-      }
-    })
-  }
-  
   open override func layoutSubviews() {
     super.layoutSubviews()
     let viewHeight = bounds.size.height
@@ -208,9 +171,10 @@ open class ChainPageCollectionView: UIView {
       var validParentItemSize: CGSize = .zero
       if (parentCollectionViewItemSize == .zero ||
         parentCollectionViewItemSize.height > viewHeight * parentHeightRatio) {
-        let parentItemHeight = viewHeight * parentHeightRatio - 2 * parentCellVerticalPadding
+        let parentItemHeight = viewHeight * parentHeightRatio - 2 * defaultParentCellVerticalPadding
         validParentItemSize =
-            CGSize(width: parentItemHeight * parentCellWidthHeightRatio, height: parentItemHeight)
+            CGSize(width: parentItemHeight * defaultParentCellWidthHeightRatio,
+                   height: parentItemHeight)
       } else {
         // Restore user's setting. e.g: Rotate to horizontal then rotate back.
         validParentItemSize = parentCollectionViewItemSize
@@ -223,8 +187,9 @@ open class ChainPageCollectionView: UIView {
       var validChildItemSize: CGSize = .zero
       if childCollectionViewItemSize == .zero ||
         childCollectionViewItemSize.height > viewHeight * (1 - parentHeightRatio) {
-        let childItemHeight = viewHeight * (1 - parentHeightRatio) - 2 * childCellVerticalPadding
-        validChildItemSize = CGSize(width: childItemHeight * childCellWidthHeightRatio,
+        let childItemHeight =
+            viewHeight * (1 - parentHeightRatio) - 2 * defaultChildCellVerticalPadding
+        validChildItemSize = CGSize(width: childItemHeight * defaultChildCellWidthHeightRatio,
                                     height: childItemHeight)
       } else {
         validChildItemSize = childCollectionViewItemSize
@@ -279,19 +244,29 @@ extension ChainPageCollectionView {
       break
     }
   }
-}
-
-extension ChainPageCollectionView {
-  func buildConstraints() {
-    parentCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-    parentCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-    parentCollectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-    parentCollectionView.heightAnchor.constraint(equalTo: heightAnchor,
-                                                 multiplier: viewType.viewHeightRatio()).isActive = true
-    childCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-    childCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-    childCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-    childCollectionView.topAnchor.constraint(equalTo: parentCollectionView.bottomAnchor).isActive = true
+  
+  func childCollectionViewFadeOut() {
+    /// Animate out currently child collection view cells.
+    addChildCollectionViewFadeOutAnimation() { finish in
+      self <= .fadeOutComplete
+      self <= .fadeInChild
+    }
+  }
+  
+  public func childCollectionViewReload() {
+    preprocessBeforeChildCollectionViewReload?()
+    self.childCollectionView.reloadData()
+    if let childCollectionViewLayout =
+      self.childCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+      self.childCollectionView.contentOffset =
+        CGPoint(x: -childCollectionViewLayout.minimumLineSpacing, y: 0)
+    }
+    // NOTE: Add a little delay to let childCollectionView/layout updates its data.
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+      self.addChildCollectionViewFadeInAnimation() { finish in
+        self <= .initial
+      }
+    })
   }
   
   func addChildCollectionViewFadeOutAnimation(completionBlock: ((Bool)->())? = nil) {
@@ -313,11 +288,11 @@ extension ChainPageCollectionView {
                                   UIView.addKeyframe(withRelativeStartTime: startTime,
                                                      relativeDuration: (1 / visibleCellsCount),
                                                      animations: {
-                                                       var newFrame = cell.frame
-                                                       newFrame.origin.y =
-                                                           self.childCollectionView.frame.size.height
-                                                       cell.frame = newFrame
-                                                       cell.alpha = 0.0})
+                                                      var newFrame = cell.frame
+                                                      newFrame.origin.y =
+                                                        self.childCollectionView.frame.size.height
+                                                      cell.frame = newFrame
+                                                      cell.alpha = 0.0})
                                 }
                               }
                             },
@@ -348,16 +323,30 @@ extension ChainPageCollectionView {
                                   UIView.addKeyframe(withRelativeStartTime: startTime,
                                                      relativeDuration: duration,
                                                      animations: {
-                                                       newFrame.origin.y =
-                                                            self.childCellVerticalPadding
-                                                       cell.frame = newFrame
-                                                       cell.alpha = 1.0})
+                                                      newFrame.origin.y =
+                                                      defaultChildCellVerticalPadding
+                                                      cell.frame = newFrame
+                                                      cell.alpha = 1.0})
                                 }
                               }
                             },
                             completion: { (finished) in
                               completionBlock?(finished)
                             })
+  }
+}
+
+extension ChainPageCollectionView {
+  func buildConstraints() {
+    parentCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    parentCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+    parentCollectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+    parentCollectionView.heightAnchor.constraint(equalTo: heightAnchor,
+                                                 multiplier: viewType.viewHeightRatio()).isActive = true
+    childCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    childCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+    childCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    childCollectionView.topAnchor.constraint(equalTo: parentCollectionView.bottomAnchor).isActive = true
   }
   
   func childCollectionViewFadeInCellIndexes() -> [IndexPath] {
