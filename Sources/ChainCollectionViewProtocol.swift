@@ -30,8 +30,8 @@
 
 import UIKit
 
-/// The protocol of ChainCollectionView.
-@objc public protocol ChainCollectionViewProtocol: UICollectionViewDelegate {
+/// The protocol of ChainPageCollectionView.
+@objc public protocol ChainPageCollectionViewProtocol: UICollectionViewDelegate {
   
   func parentCollectionView(_ collectionView: UICollectionView,
                             numberOfItemsInSection section: Int) -> Int
@@ -74,5 +74,5 @@ import UIKit
                                           to destinationIndexPath: IndexPath)
   
   /// Let childCollectionView reload data with current parent collection view index.
-  func childCollectionView(_ collectionView: UICollectionView, parenCollectionViewIndex: Int)
+  func childCollectionView(_ collectionView: UICollectionView, parentCollectionViewIndex: Int)
 }

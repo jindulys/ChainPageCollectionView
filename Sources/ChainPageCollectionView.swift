@@ -82,7 +82,7 @@ open class ChainPageCollectionView: UIView {
   
   public var childCollectionViewItemSize: CGSize = .zero
   
-  public weak var delegate: ChainCollectionViewProtocol?
+  public weak var delegate: ChainPageCollectionViewProtocol?
   
   fileprivate var parentIndexChangeDuringFadeIn: Bool = false
   
@@ -101,7 +101,7 @@ open class ChainPageCollectionView: UIView {
         return
       }
       delegate?.childCollectionView(childCollectionView,
-                                    parenCollectionViewIndex: parentCollectionViewIndex)
+                                    parentCollectionViewIndex: parentCollectionViewIndex)
       self <= .fadeOutChild
     }
   }
