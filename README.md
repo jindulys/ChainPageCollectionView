@@ -3,7 +3,7 @@
 </h3>
 
 # PageKit
-A custom View with fancy collectionView animation
+A custom View with two level chained collection views and fancy transition animation.
 
 ## Demo
 
@@ -80,6 +80,23 @@ func childCollectionView(_ collectionView: UICollectionView, parentCollectionVie
 ```
 
 ### Customization
+
+#### Child Collection View Animation Type
+
+For now support two types
+
+```swift
+public enum ChainPageChildAnimationType {
+  case slideOutSlideIn
+  case shrinkOutExpandIn
+}
+```
+
+Default is `slideOutSlideIn`, you can set it via initialization.
+```swift
+let chainView = ChainPageCollectionView(viewType: .normal, 
+                                        childAnimationType: #yourchoice)
+```
 
 #### Layout
 
