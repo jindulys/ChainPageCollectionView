@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/ChainPageCollectionView.swift"
-            timestampString = "522539299.176623"
+            timestampString = "522541918.710936"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "layoutSubviews()"
             landmarkType = "7">
          </BreakpointContent>

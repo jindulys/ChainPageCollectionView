@@ -60,6 +60,11 @@ public enum ChainPageCollectionViewType {
   }
 }
 
+public enum ChainPageChildAnimationType {
+  case slideOutSlideIn
+  case shrinkOutExpandIn
+}
+
 fileprivate enum ChildAnimationState {
   case initial
   case fadeOutChild
@@ -73,10 +78,10 @@ fileprivate enum ChildAnimationState {
 open class ChainPageCollectionView: UIView {
   
   /// The parent collection view.
-  @IBOutlet public var parentCollectionView: UICollectionView!
+  public var parentCollectionView: UICollectionView!
 
   /// The child collection view.
-  @IBOutlet public var childCollectionView: UICollectionView!
+  public var childCollectionView: UICollectionView!
   
   public var parentCollectionViewItemSize: CGSize = .zero
   
@@ -91,6 +96,8 @@ open class ChainPageCollectionView: UIView {
   fileprivate var lastTimeViewHeight: CGFloat = 0.0
   
   fileprivate let viewType: ChainPageCollectionViewType
+  
+  fileprivate let childAnimationType: ChainPageChildAnimationType
   
   fileprivate var state: ChildAnimationState = .initial
   
@@ -127,8 +134,10 @@ open class ChainPageCollectionView: UIView {
 
   public init(viewType: ChainPageCollectionViewType,
               parentCollectionViewLayout: UICollectionViewFlowLayout = CentralCardLayout(),
-              childCollectionViewLayout: UICollectionViewFlowLayout = EdgeCardLayout()) {
+              childCollectionViewLayout: UICollectionViewFlowLayout = EdgeCardLayout(),
+              childAnimationType: ChainPageChildAnimationType = .slideOutSlideIn) {
     self.viewType = viewType
+    self.childAnimationType = childAnimationType
 
     parentCollectionView =
         UICollectionView(frame: .zero,
@@ -279,20 +288,37 @@ extension ChainPageCollectionView {
                             animations: {
                               for (i, index) in indexPaths.enumerated() {
                                 if let cell = self.childCollectionView.cellForItem(at: index) {
-                                  let originalFrame = cell.frame
-                                  let startTime = (1 / visibleCellsCount) * Double(i)
-                                  restoreCellBlocks.append{
-                                    cell.frame = originalFrame
-                                    cell.alpha = 1.0
+                                  var animationBlock: ()->() = {}
+                                  var restoreBlock: ()->() = {}
+                                  switch self.childAnimationType {
+                                  case .slideOutSlideIn:
+                                    let originalFrame = cell.frame
+                                    animationBlock = {
+                                      var newFrame = cell.frame
+                                      newFrame.origin.y =
+                                        self.childCollectionView.frame.size.height
+                                      cell.frame = newFrame
+                                      cell.alpha = 0.0
+                                    }
+                                    restoreBlock = {
+                                      cell.frame = originalFrame
+                                      cell.alpha = 1.0
+                                    }
+                                  case .shrinkOutExpandIn:
+                                    animationBlock = {
+                                      cell.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                                      cell.alpha = 0.0
+                                    }
+                                    restoreBlock = {
+                                      cell.transform = .identity
+                                      cell.alpha = 1.0
+                                    }
                                   }
+                                  let startTime = (1 / visibleCellsCount) * Double(i)
+                                  restoreCellBlocks.append(restoreBlock)
                                   UIView.addKeyframe(withRelativeStartTime: startTime,
                                                      relativeDuration: (1 / visibleCellsCount),
-                                                     animations: {
-                                                      var newFrame = cell.frame
-                                                      newFrame.origin.y =
-                                                        self.childCollectionView.frame.size.height
-                                                      cell.frame = newFrame
-                                                      cell.alpha = 0.0})
+                                                     animations:animationBlock)
                                 }
                               }
                             },
@@ -315,18 +341,30 @@ extension ChainPageCollectionView {
                             animations: {
                               for (_, index) in indexPaths.enumerated() {
                                 if let cell = self.childCollectionView.cellForItem(at: index) {
-                                  var newFrame = cell.frame
-                                  newFrame.origin.y = self.childCollectionView.frame.size.height
-                                  cell.frame = newFrame
+                                  var animationBlock: ()->() = {}
+                                  switch self.childAnimationType {
+                                  case .slideOutSlideIn:
+                                    var newFrame = cell.frame
+                                    newFrame.origin.y = self.childCollectionView.frame.size.height
+                                    cell.frame = newFrame
+                                    animationBlock = {
+                                      newFrame.origin.y =
+                                          defaultChildCellVerticalPadding
+                                      cell.frame = newFrame
+                                      cell.alpha = 1.0
+                                    }
+                                  case .shrinkOutExpandIn:
+                                    cell.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                                    animationBlock = {
+                                      cell.transform = .identity
+                                      cell.alpha = 1.0
+                                    }
+                                  }
                                   let startTime = (1 / Double(indexPaths.count)) * Double(index.row)
                                   let duration = (1.0 / Double(indexPaths.count))
                                   UIView.addKeyframe(withRelativeStartTime: startTime,
                                                      relativeDuration: duration,
-                                                     animations: {
-                                                      newFrame.origin.y =
-                                                      defaultChildCellVerticalPadding
-                                                      cell.frame = newFrame
-                                                      cell.alpha = 1.0})
+                                                     animations: animationBlock)
                                 }
                               }
                             },
