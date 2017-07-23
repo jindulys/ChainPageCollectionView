@@ -4,9 +4,10 @@
 
 # PageKit
 A custom View with fancy collectionView animation
-<h3 align="center">
-    <img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/latest.gif" alt="Demo" title="Demo" width="330"/>
-</h3>
+
+## Demo
+
+<img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/latest.gif" alt="Demo" title="Demo" width="330"/>         <img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/shrink.gif" alt="Demo" title="Demo" width="330"/>
 
 ## Requirements
 
