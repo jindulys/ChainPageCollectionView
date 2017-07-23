@@ -93,4 +93,9 @@ You can use `parentCollectionViewItemSize` and `childCollectionViewItemSize` to 
 
 The default behaviour of this view is that parent collection view will take 3/4 of this view's height and child collection view takes the rest. You can set `viewType` to a customized ration with type `customParentHeight(#SomeInt, #SomeInt)`
 
+## License
+
+Expanding collection is released under the MIT license.
+See [LICENSE](./LICENSE) for details.
+
 
