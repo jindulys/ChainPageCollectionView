@@ -148,7 +148,7 @@ let chainView = ChainPageCollectionView(viewType: .customParentHeight(28, 12))
 ```
 
 ## Author
-Yansong Li(liyansong.edw@gmail.com), wechat: jindulys_uw
+Yansong Li ( liyansong.edw@gmail.com ), wechat: `jindulys_uw`
 
 ## License
 
