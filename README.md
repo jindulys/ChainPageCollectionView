@@ -2,7 +2,7 @@
     <img src="Images/ChainPage.png" width=540/>
 </h3>
 
-# PageKit
+# ChainPageCollectionView
 A custom View with two level chained collection views and fancy transition animation.
 
 ## Demo
