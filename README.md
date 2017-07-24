@@ -147,6 +147,9 @@ The default behaviour of this view is that parent collection view takes `3/4` he
 let chainView = ChainPageCollectionView(viewType: .customParentHeight(28, 12))
 ```
 
+## Author
+Yansong Li(liyansong.edw@gmail.com), wechat: jindulys_uw
+
 ## License
 
 Expanding collection is released under the MIT license.
