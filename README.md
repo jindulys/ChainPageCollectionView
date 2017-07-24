@@ -27,6 +27,36 @@ Run `pod install`.
 
 NOTE: If you can not find the pod target. Please follow: https://stackoverflow.com/questions/31065447/no-such-module-when-i-use-cocoapods to build your pod target.
 
+### Carthage
+
+To integrate `ChainPageCollectionView` with `Carthage`, specify it in your `Cartfile`
+
+```
+github "jindulys/ChainPageCollectionView" ~> 1.0
+```
+
+Then, run the following command to build `ChainPageCollectionView` framework
+
+```
+$ carthage update
+```
+At last, you need to set up your Xcode project manually to add `ChainPageCollectionView` framework.
+
+On your application targets’ `General` settings tab, in the `Linked Frameworks and Libraries` section, drag and drop each framework you want to use from the `Carthage/Build` folder on disk.
+
+On your application targets’ `Build Phases` settings tab, click the `+` icon and choose `New Run Script Phase`. Create a Run Script with the following content:
+
+```
+/usr/local/bin/carthage copy-frameworks
+```
+and add the paths to the frameworks you want to use under `Input Files`:
+
+```
+$(SRCROOT)/Carthage/Build/iOS/ChainPageCollectionView.framework
+```
+
+Check [Carthage](https://github.com/Carthage/Carthage) if you need more help.
+
 ## Usage
 
 ### Basic Usage
