@@ -41,7 +41,7 @@ import ChainPageCollectionView
 chainView = ChainPageCollectionView(viewType: .normal)
 chainView.delegate = self
 ```
-2. Register cells for `parentCollectionView` and `childCollectionView`
+2. Register cell for `parentCollectionView` and `childCollectionView`
 ```swift
 chainView.parentCollectionView.register(#cellType, forCellWithReuseIdentifier:#cellIdentifier)
 chainView.childCollectionView.register(#cellType, forCellWithReuseIdentifier:#cellIdentifier)
@@ -70,8 +70,8 @@ func childCollectionView(_ collectionView: UICollectionView, cellForItemAt index
 ```swift
 // You will get notified by following protocol method.
 func childCollectionView(_ collectionView: UICollectionView, parentCollectionViewIndex: Int) {
-  // When parent collection view scrolls, this will get called when it stops with new parent collectionview's index.
-  // You can use this message as a trigger to fetch related child collection view's information.
+  // When parent collection view's scroll stops, this will get called with new parent collectionview's index.
+  // You can use this message to fetch related child collection view's new data.
   
   // Once you have the latest child collection view's data, set `childCollectionViewDataReady` to `true`.
   // NOTE: This is important to be set, otherwise your child collection view propably will not show up again.
@@ -83,7 +83,7 @@ func childCollectionView(_ collectionView: UICollectionView, parentCollectionVie
 
 #### Child Collection View Animation Type
 
-For now support two types
+For now `ChainPageCollectionView` support two types of child collection view transition animation.
 
 ```swift
 public enum ChainPageChildAnimationType {
@@ -92,7 +92,7 @@ public enum ChainPageChildAnimationType {
 }
 ```
 
-Default is `slideOutSlideIn`, you can set it via initialization.
+Default is `slideOutSlideIn`, you can set it via initialization stage.
 ```swift
 let chainView = ChainPageCollectionView(viewType: .normal, 
                                         childAnimationType: #yourchoice)
@@ -100,7 +100,7 @@ let chainView = ChainPageCollectionView(viewType: .normal,
 
 #### Layout
 
-You can customize the layout objects used by `parentCollectionView` and `childCollectionView` by
+You can customize the layout objects by passing them via `ChainPageCollectionView`'s designated initializer.
 ```swift
 let chainView = ChainPageCollectionView(viewType: .normal, 
                                         parentColectionViewLayout: #yourlayout, 
@@ -108,11 +108,14 @@ let chainView = ChainPageCollectionView(viewType: .normal,
 ```
 #### ItemSize
 
-You can use `parentCollectionViewItemSize` and `childCollectionViewItemSize` to set the desired itemSize.
+You can use `parentCollectionViewItemSize` and `childCollectionViewItemSize` to set related layouts' itemSize.
 
 #### Screen Ratio
 
-The default behaviour of this view is that parent collection view will take 3/4 of this view's height and child collection view takes the rest. You can set `viewType` to a customized ration with type `customParentHeight(#SomeInt, #SomeInt)`
+The default behaviour of this view is that parent collection view takes `3/4` height of this view and child collection view takes the rest. You can set `viewType` to a customized ratio with type `customParentHeight(#SomeInt, #SomeInt)`
+```swift
+let chainView = ChainPageCollectionView(viewType: .customParentHeight(28, 12))
+```
 
 ## License
 
