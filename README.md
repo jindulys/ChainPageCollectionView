@@ -7,7 +7,7 @@ A custom View with two level chained collection views and fancy transition anima
 
 ## Demo
 
-<img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/slidedown.gif" alt="Demo" title="Demo" width="330"/>         <img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/sshrink.gif" alt="Demo" title="Demo" width="330"/>
+<img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/new1.gif" alt="Demo" title="Demo" width="330"/>         <img src="https://raw.githubusercontent.com/jindulys/ChainPageCollectionView/master/Images/new2.gif" alt="Demo" title="Demo" width="330"/>
 
 ## Requirements
 
