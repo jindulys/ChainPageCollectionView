@@ -71,7 +71,11 @@ extension ViewController: ChainPageCollectionViewProtocol {
     
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ImageCardCollectionViewCell.self), for: indexPath)
     if let vCell = cell as? ImageCardCollectionViewCell {
-      vCell.backGroundImageView.image = UIImage(named: childImages[indexPath.row])
+      if indexPath.row == 0 {
+        vCell.backGroundImageView.image = UIImage(named: parentDataSource[self.parentIndex])
+      } else {
+        vCell.backGroundImageView.image = UIImage(named: childImages[indexPath.row])
+      }
     }
     return cell
   }

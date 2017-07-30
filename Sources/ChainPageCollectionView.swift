@@ -35,8 +35,8 @@ private var defaultParentCellVerticalPadding: CGFloat = 50
 private var defaultParentCellWidthHeightRatio: CGFloat = 3 / 4
 private var defaultChildCellVerticalPadding: CGFloat = 12
 private var defaultChildCellWidthHeightRatio: CGFloat = 3 / 4
-private let defaultFadeOutDuration: CGFloat = 0.6
-private let defaultFadeInDuration: CGFloat = 0.6
+private let defaultFadeOutDuration: TimeInterval = 0.2
+private let defaultFadeInDuration: TimeInterval = 0.2
 
 public enum ChainPageCollectionViewType {
 
@@ -133,7 +133,7 @@ open class ChainPageCollectionView: UIView {
   }
 
   public init(viewType: ChainPageCollectionViewType,
-              parentCollectionViewLayout: UICollectionViewFlowLayout = CentralCardLayout(),
+              parentCollectionViewLayout: UICollectionViewFlowLayout = CentralCardLayout(scaled: true),
               childCollectionViewLayout: UICollectionViewFlowLayout = EdgeCardLayout(),
               childAnimationType: ChainPageChildAnimationType = .slideOutSlideIn) {
     self.viewType = viewType
@@ -271,106 +271,100 @@ extension ChainPageCollectionView {
         CGPoint(x: -childCollectionViewLayout.minimumLineSpacing, y: 0)
     }
     // NOTE: Add a little delay to let childCollectionView/layout updates its data.
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+    DispatchQueue.main.async{
       self.addChildCollectionViewFadeInAnimation() { finish in
         self <= .initial
       }
-    })
+    }
   }
   
   func addChildCollectionViewFadeOutAnimation(completionBlock: ((Bool)->())? = nil) {
     let indexPaths = childCollectionView.indexPathsForVisibleItems.sorted { $0.row < $1.row }
-    let visibleCellsCount = Double(indexPaths.count)
     var restoreCellBlocks: [() -> ()] = []
-    UIView.animateKeyframes(withDuration: TimeInterval(defaultFadeOutDuration),
-                            delay: 0,
-                            options: UIViewKeyframeAnimationOptions(),
-                            animations: {
-                              for (i, index) in indexPaths.enumerated() {
-                                if let cell = self.childCollectionView.cellForItem(at: index) {
-                                  var animationBlock: ()->() = {}
-                                  var restoreBlock: ()->() = {}
-                                  switch self.childAnimationType {
-                                  case .slideOutSlideIn:
-                                    let originalFrame = cell.frame
-                                    animationBlock = {
-                                      var newFrame = cell.frame
-                                      newFrame.origin.y =
-                                        self.childCollectionView.frame.size.height
-                                      cell.frame = newFrame
-                                      cell.alpha = 0.0
-                                    }
-                                    restoreBlock = {
-                                      cell.frame = originalFrame
-                                      cell.alpha = 1.0
-                                    }
-                                  case .shrinkOutExpandIn:
-                                    animationBlock = {
-                                      cell.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-                                      cell.alpha = 0.0
-                                    }
-                                    restoreBlock = {
-                                      cell.transform = .identity
-                                      cell.alpha = 1.0
-                                    }
-                                  }
-                                  let startTime = (1 / visibleCellsCount) * Double(i)
-                                  restoreCellBlocks.append(restoreBlock)
-                                  UIView.addKeyframe(withRelativeStartTime: startTime,
-                                                     relativeDuration: (1 / visibleCellsCount),
-                                                     animations:animationBlock)
-                                }
-                              }
-                            },
-                            completion: { (finished) in
-                              // NOTE: Since we are always using childCollectionView and we changed
-                              // cell's metrics manually, we should restore cell metrics to avoid
-                              // incorrect cell state when dequeued.
-                              self.preprocessBeforeChildCollectionViewReload = {
-                                restoreCellBlocks.forEach { $0() }
-                              }
-                              completionBlock?(finished)
-                            })
+    
+    CATransaction.begin()
+    CATransaction.setCompletionBlock {
+      // NOTE: Since we are always using childCollectionView and we changed
+      // cell's metrics manually, we should restore cell metrics to avoid
+      // incorrect cell state when dequeued.
+      self.preprocessBeforeChildCollectionViewReload = {
+        restoreCellBlocks.forEach { $0() }
+      }
+      completionBlock?(true)
+    }
+    for (i, index) in indexPaths.enumerated() {
+      if let cell = self.childCollectionView.cellForItem(at: index) {
+        var animationBlock: ()->() = {}
+        var restoreBlock: ()->() = {}
+        switch self.childAnimationType {
+        case .slideOutSlideIn:
+          let originalFrame = cell.frame
+          animationBlock = {
+            var newFrame = cell.frame
+            newFrame.origin.y =
+              self.childCollectionView.frame.size.height
+            cell.frame = newFrame
+            cell.alpha = 0.0
+          }
+          restoreBlock = {
+            cell.frame = originalFrame
+            cell.alpha = 1.0
+          }
+        case .shrinkOutExpandIn:
+          animationBlock = {
+            cell.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            cell.alpha = 0.0
+          }
+          restoreBlock = {
+            cell.transform = .identity
+            cell.alpha = 1.0
+          }
+        }
+        restoreCellBlocks.append(restoreBlock)
+        UIView.animate(withDuration: defaultFadeOutDuration,
+                       delay: Double(i)*0.1,
+                       options: [],
+                       animations: animationBlock,
+                       completion: nil)
+      }
+    }
+    CATransaction.commit()
   }
   
   func addChildCollectionViewFadeInAnimation(completionBlock: ((Bool)->())? = nil) {
     let indexPaths = self.childCollectionViewFadeInCellIndexes()
-    UIView.animateKeyframes(withDuration: TimeInterval(defaultFadeInDuration),
-                            delay: 0,
-                            options: UIViewKeyframeAnimationOptions(),
-                            animations: {
-                              for (_, index) in indexPaths.enumerated() {
-                                if let cell = self.childCollectionView.cellForItem(at: index) {
-                                  var animationBlock: ()->() = {}
-                                  switch self.childAnimationType {
-                                  case .slideOutSlideIn:
-                                    var newFrame = cell.frame
-                                    newFrame.origin.y = self.childCollectionView.frame.size.height
-                                    cell.frame = newFrame
-                                    animationBlock = {
-                                      newFrame.origin.y =
-                                          defaultChildCellVerticalPadding
-                                      cell.frame = newFrame
-                                      cell.alpha = 1.0
-                                    }
-                                  case .shrinkOutExpandIn:
-                                    cell.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-                                    animationBlock = {
-                                      cell.transform = .identity
-                                      cell.alpha = 1.0
-                                    }
-                                  }
-                                  let startTime = (1 / Double(indexPaths.count)) * Double(index.row)
-                                  let duration = (1.0 / Double(indexPaths.count))
-                                  UIView.addKeyframe(withRelativeStartTime: startTime,
-                                                     relativeDuration: duration,
-                                                     animations: animationBlock)
-                                }
-                              }
-                            },
-                            completion: { (finished) in
-                              completionBlock?(finished)
-                            })
+    CATransaction.begin()
+    CATransaction.setCompletionBlock { 
+      completionBlock?(true)
+    }
+    for (i, indexPath) in indexPaths.enumerated() {
+      if let cell = self.childCollectionView.cellForItem(at: indexPath) {
+        var animationBlock: ()->() = {}
+        switch self.childAnimationType {
+        case .slideOutSlideIn:
+          var newFrame = cell.frame
+          newFrame.origin.y = self.childCollectionView.frame.size.height
+          cell.frame = newFrame
+          animationBlock = {
+            newFrame.origin.y = defaultChildCellVerticalPadding
+            cell.frame = newFrame
+            cell.alpha = 1.0
+          }
+        case .shrinkOutExpandIn:
+          cell.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+          animationBlock = {
+            cell.transform = .identity
+            cell.alpha = 1.0
+          }
+        }
+        UIView.animate(withDuration: defaultFadeInDuration,
+                       delay: Double(i)*0.17,
+                       options: [],
+                       animations: animationBlock,
+                       completion: nil)
+      }
+    }
+    CATransaction.commit()
   }
 }
 
@@ -483,6 +477,7 @@ extension ChainPageCollectionView: UICollectionViewDataSource, UICollectionViewD
       return
     }
     if collectionView == parentCollectionView {
+      print("Will display cell:\(cell)")
       validDelegate.parentCollectionView?(parentCollectionView, willDisplay: cell,
                                           forItemAt: indexPath)
     } else {

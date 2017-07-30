@@ -30,16 +30,23 @@
 
 import UIKit
 
+private let maxScaleOffset: CGFloat = 200
+private let minScale: CGFloat = 0.9
+private let minAlpha: CGFloat = 0.3
+
 /// The layout that can place a card at the central of the screen.
 public class CentralCardLayout: UICollectionViewFlowLayout {
+  
+  public var scaled: Bool = false
 
   fileprivate var lastCollectionViewSize: CGSize = CGSize.zero
 
   public required init?(coder aDecoder: NSCoder) {
     fatalError()
   }
-
-  override init() {
+  
+  public init(scaled: Bool) {
+    self.scaled = scaled
     super.init()
     scrollDirection = .horizontal
     minimumLineSpacing = 25
@@ -54,6 +61,37 @@ public class CentralCardLayout: UICollectionViewFlowLayout {
       configureInset()
       lastCollectionViewSize = collectionView.bounds.size
     }
+  }
+  
+  public override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    guard let attribute = super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes else {
+        return nil
+    }
+    if !scaled {
+      return attribute
+    }
+    centerScaledAttribute(attribute: attribute)
+    return attribute
+  }
+  
+  public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    guard let attributes = super.layoutAttributesForElements(in: rect) else {
+      return nil
+    }
+    if !scaled {
+      return attributes
+    }
+    guard case let newAttributesArray as [UICollectionViewLayoutAttributes] = NSArray(array: attributes, copyItems: true) else {
+      return nil
+    }
+    newAttributesArray.forEach { attribute in
+      centerScaledAttribute(attribute: attribute)
+    }
+    return newAttributesArray
+  }
+  
+  public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+    return true
   }
 
   public override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint,
@@ -110,6 +148,21 @@ public class CentralCardLayout: UICollectionViewFlowLayout {
 // MARK: helpers
 
 extension CentralCardLayout {
+  fileprivate func centerScaledAttribute(attribute: UICollectionViewLayoutAttributes) {
+    guard let collectionView = collectionView else {
+      return
+    }
+    let visibleRect = CGRect(x: collectionView.contentOffset.x,
+                             y: collectionView.contentOffset.y,
+                             width: collectionView.bounds.size.width,
+                             height: collectionView.bounds.size.height)
+    let visibleCenterX = visibleRect.midX
+    let distanceFromCenter = visibleCenterX - attribute.center.x
+    let distance = min(abs(distanceFromCenter), maxScaleOffset)
+    let scale = distance * (minScale - 1) / maxScaleOffset + 1
+    attribute.transform3D = CATransform3DScale(CATransform3DIdentity, scale, scale, 1)
+    attribute.alpha = distance * (minAlpha - 1) / maxScaleOffset + 1
+  }
   
   fileprivate func configureInset() -> Void {
     guard let collectionView = collectionView else {
