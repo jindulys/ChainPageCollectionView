@@ -86,6 +86,8 @@ open class ChainPageCollectionView: UIView {
   public var parentCollectionViewItemSize: CGSize = .zero
   
   public var childCollectionViewItemSize: CGSize = .zero
+
+  public var childAnimationType: ChainPageChildAnimationType
   
   public weak var delegate: ChainPageCollectionViewProtocol?
   
@@ -96,8 +98,6 @@ open class ChainPageCollectionView: UIView {
   fileprivate var lastTimeViewHeight: CGFloat = 0.0
   
   fileprivate let viewType: ChainPageCollectionViewType
-  
-  fileprivate let childAnimationType: ChainPageChildAnimationType
   
   fileprivate var state: ChildAnimationState = .initial
   

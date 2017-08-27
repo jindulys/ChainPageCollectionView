@@ -16,9 +16,29 @@ class ViewController: UIViewController {
   let childImages = ["c1", "c2", "c3", "c4", "c5", "c6"]
   
   var parentIndex: Int = 0
+
+  let button: UIButton = {
+    let button = UIButton()
+    button.setTitle("Change to Scale Animation", for: .normal)
+    button.setTitleColor(.black, for: .normal)
+    button.backgroundColor = UIColor(red: 237 / 255.0,
+                                     green: 231 / 255.0,
+                                     blue: 206 / 255.0,
+                                     alpha: 1.0)
+    return button
+  }()
+
+  let chainCollectionView = ChainPageCollectionView(viewType: .customParentHeight(28, 12))
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    chainCollectionView.translatesAutoresizingMaskIntoConstraints = false
+    self.view.addSubview(button)
+    self.view.addSubview(chainCollectionView)
+    self.buildConstraints()
+    button.addTarget(self, action: #selector(buttonTapped(button:)), for: .touchUpInside)
+    chainCollectionView.parentCollectionViewItemSize = CGSize(width: 260, height: 390)
     // Do any additional setup after loading the view, typically from a nib.
     chainCollectionView.delegate = self
     chainCollectionView.backgroundColor = UIColor(red: 237 / 255.0,
@@ -32,20 +52,31 @@ class ViewController: UIViewController {
     self.navigationController?.navigationBar.isHidden = false
     self.navigationController?.navigationBar.isTranslucent = false
   }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
+  override var prefersStatusBarHidden: Bool {
+    return true
   }
-  
-  override func loadView() {
-    let chainView = ChainPageCollectionView(viewType: .customParentHeight(28, 12))
-    chainView.parentCollectionViewItemSize = CGSize(width: 260, height: 390)
-    view = chainView
+}
+
+extension ViewController {
+  func buildConstraints() {
+    self.button.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+    self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+    self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+    self.button.bottomAnchor.constraint(equalTo: self.chainCollectionView.topAnchor).isActive = true
+    self.chainCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+    self.chainCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+    self.chainCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
   }
-  
-  var chainCollectionView: ChainPageCollectionView {
-    return view as! ChainPageCollectionView
+
+  func buttonTapped(button: UIButton) {
+    if chainCollectionView.childAnimationType == .slideOutSlideIn {
+      button.setTitle("Change to Slide Animation", for: .normal)
+      chainCollectionView.childAnimationType = .shrinkOutExpandIn
+    } else {
+      button.setTitle("Change to Scale Animation", for: .normal)
+      chainCollectionView.childAnimationType = .slideOutSlideIn
+    }
   }
 }
 
