@@ -60,13 +60,21 @@ class ViewController: UIViewController {
 
 extension ViewController {
   func buildConstraints() {
-    self.button.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+    if #available(iOS 11, *) {
+        self.button.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+    } else {
+        self.button.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+    }
     self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
     self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
     self.button.bottomAnchor.constraint(equalTo: self.chainCollectionView.topAnchor).isActive = true
     self.chainCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
     self.chainCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-    self.chainCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    if #available(iOS 11, *) {
+        self.chainCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    } else {
+        self.chainCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
   }
 
   func buttonTapped(button: UIButton) {
